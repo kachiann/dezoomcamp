@@ -16,6 +16,6 @@
 ![Question5  screenshot](images/yellow_taxi_2021_03.png)
 
 ### Question 6: How would you configure the timezone to New York in a Schedule trigger?
-
+![Question6  screenshot](images/question6.png)
 
 
