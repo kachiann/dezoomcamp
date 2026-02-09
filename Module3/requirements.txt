@@ -1,0 +1,5 @@
+google-cloud-storage
+pyarrow
+gcsfs
+google-cloud-bigquery
+db-dtypes
