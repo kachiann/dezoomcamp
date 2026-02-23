@@ -1,59 +1,40 @@
 /* @bruin
+name: reports.trips_report
+type: duckdb.sql
 
-# Docs:
-# - SQL assets: https://getbruin.com/docs/bruin/assets/sql
-# - Materialization: https://getbruin.com/docs/bruin/assets/materialization
-# - Quality checks: https://getbruin.com/docs/bruin/quality/available_checks
-
-# TODO: Set the asset name (recommended: reports.trips_report).
-name: TODO_SET_ASSET_NAME
-
-# TODO: Set platform type.
-# Docs: https://getbruin.com/docs/bruin/assets/sql
-# suggested type: duckdb.sql
-type: TODO
-
-# TODO: Declare dependency on the staging asset(s) this report reads from.
 depends:
-  - TODO_DEP_STAGING_ASSET
+  - staging.trips
 
-# TODO: Choose materialization strategy.
-# For reports, `time_interval` is a good choice to rebuild only the relevant time window.
-# Important: Use the same `incremental_key` as staging (e.g., pickup_datetime) for consistency.
 materialization:
   type: table
-  # suggested strategy: time_interval
-  strategy: TODO
-  # TODO: set to your report's date column
-  incremental_key: TODO
-  # TODO: set to `date` or `timestamp`
-  time_granularity: TODO
+  strategy: create+replace
 
-# TODO: Define report columns + primary key(s) at your chosen level of aggregation.
 columns:
-  - name: TODO_dim
-    type: TODO
-    description: TODO
+  - name: payment_type_name
+    type: string
+    description: Human-readable payment type.
     primary_key: true
-  - name: TODO_date
-    type: DATE
-    description: TODO
+  - name: trip_date
+    type: date
+    description: Trip date (from pickup_datetime).
     primary_key: true
-  - name: TODO_metric
-    type: BIGINT
-    description: TODO
+  - name: trip_count
+    type: bigint
+    description: Number of trips.
     checks:
       - name: non_negative
-
+  - name: fare_amount_sum
+    type: double
+    description: Sum of fare_amount.
+    checks:
+      - name: non_negative
 @bruin */
 
--- Purpose of reports:
--- - Aggregate staging data for dashboards and analytics
--- Required Bruin concepts:
--- - Filter using `{{ start_datetime }}` / `{{ end_datetime }}` for incremental runs
--- - GROUP BY your dimension + date columns
-
-SELECT * -- TODO: replace with your aggregation logic
-FROM staging.trips
-WHERE pickup_datetime >= '{{ start_datetime }}'
-  AND pickup_datetime < '{{ end_datetime }}'
+select
+  coalesce(payment_type_name, 'Unknown') as payment_type_name,
+  cast(pickup_datetime as date) as trip_date,
+  count(*) as trip_count,
+  sum(coalesce(fare_amount, 0)) as fare_amount_sum
+from staging.trips
+group by 1, 2
+order by trip_date, trip_count desc;

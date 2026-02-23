@@ -216,3 +216,6 @@ logs/
 # end dbt Cloud content
 
 .bruin.yml
+logs/runs
+logs/*.log
+*.py[cod]
