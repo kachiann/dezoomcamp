@@ -1,0 +1,14 @@
+version: 2
+
+sources:
+  - name: raw
+    description: Raw taxi trip data from NYC TLC
+    database: zoomcamp-ny-taxi-486822
+    schema: zoomcamp_hw4
+
+    tables:
+      - name: green_trips_2020
+        description: Raw green taxi trip records
+
+      - name: yellow_trips_2020
+        description: Raw yellow taxi trip records
