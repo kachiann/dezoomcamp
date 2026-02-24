@@ -2,16 +2,8 @@
 
 In this homework, we'll use Bruin to build a complete data pipeline, from ingestion to reporting.
 
-## Setup
+## Usage
 
-1. Install Bruin CLI: `curl -LsSf https://getbruin.com/install/cli | sh`
-2. Initialize the zoomcamp template: `bruin init zoomcamp my-pipeline`
-3. Configure your `.bruin.yml` with a DuckDB connection
-4. Follow the tutorial in the [main module README](../../../05-data-platforms/)
-
-After completing the setup, you should have a working NYC taxi data pipeline.
-
----
 
 ### Question 1. Bruin Pipeline Structure
 
