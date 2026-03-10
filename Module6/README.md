@@ -1,12 +1,10 @@
-```markdown
-# DataTalksClub Data Engineering Zoomcamp 2026  
 ## Module 6 – Batch Processing with Spark (Homework)
 
-Repository for my solutions to **Module 6: Batch Processing with Spark** of the Data Engineering Zoomcamp 2026 cohort.[web:89][web:91]
+Repository for my solutions to **Module 6: Batch Processing with Spark** of the Data Engineering Zoomcamp 2026 cohort.
 
 ---
 
-## Setup
+### Setup
 
 Environment:
 
@@ -36,15 +34,17 @@ Spark version: 4.1.1
 
 ---
 
-## Question 1 – Install Spark and PySpark
+### Question 1 – Install Spark and PySpark
 
-> Install Spark, run PySpark, create a local Spark session, execute `spark.version`. What’s the output?
+> Install Spark, run PySpark, create a local Spark session, execute `spark.version`.
+
+> What’s the output?
 
 **Answer:** `4.1.1`  
 
 ---
 
-## Question 2 – Yellow November 2025 (Repartition)
+### Question 2 – Yellow November 2025 (Repartition)
 
 > Read November 2025 Yellow data into a Spark DataFrame.  
 > Repartition to 4 partitions and save to Parquet.  
@@ -89,7 +89,7 @@ Output (each file):
 
 ---
 
-## Question 3 – Count records on 15 November
+### Question 3 – Count records on 15 November
 
 > How many taxi trips started on 2025‑11‑15?
 
@@ -125,7 +125,7 @@ Trips on 2025-11-15: 162604
 
 ---
 
-## Question 4 – Longest trip duration (hours)
+### Question 4 – Longest trip duration (hours)
 
 > What is the length of the longest trip in hours?
 
@@ -168,17 +168,17 @@ Rounded to 1 decimal: **90.6**
 
 ---
 
-## Question 5 – Spark UI port
+### Question 5 – Spark UI port
 
 > Spark’s User Interface (application dashboard) runs on which local port?
 
-Default Spark driver UI port is **4040**.[web:47][web:56]
+Default Spark driver UI port is **4040**.
 
 **Answer:** **4040**  
 
 ---
 
-## Question 6 – Least frequent pickup location zone
+### Question 6 – Least frequent pickup location zone
 
 > Using the yellow trips and `taxi_zone_lookup.csv`, what is the name of the least frequent pickup Zone?
 
@@ -246,7 +246,7 @@ Among the answer options, this matches directly.
 
 ---
 
-## Summary of Answers
+### Summary of Answers
 
 | Question | Answer                                               |
 |---------:|------------------------------------------------------|
@@ -258,9 +258,3 @@ Among the answer options, this matches directly.
 | Q6       | Governor's Island/Ellis Island/Liberty Island        |
 
 ---
-
-## References
-
-- DataTalksClub – Data Engineering Zoomcamp (Module 6 & homework).[web:89][web:87]  
-- Learning in public – benefits and motivation.[web:121][web:118]
-```
