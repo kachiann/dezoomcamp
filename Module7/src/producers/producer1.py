@@ -1,18 +1,11 @@
-import dataclasses
-import json
-import sys
-import time
-from pathlib import Path
-
-sys.path.insert(0, str(Path(__file__).parent.parent))
-
 import pandas as pd
+import json
 from kafka import KafkaProducer
-from models import Ride, ride_from_row
+from time import time
 
-# Download NYC green taxi data for October 2025 and send to Kafka topic "rides".
-url = "https://d37ci6vzurychx.cloudfront.net/trip-data/green_tripdata_2025-10.parquet"
-columns = [
+# 1. Read parquet and keep only needed columns
+df = pd.read_parquet("/workspaces/dezoomcamp/Module7/data/green_tripdata_2025-10.parquet")
+df = df[[
     "lpep_pickup_datetime",
     "lpep_dropoff_datetime",
     "PULocationID",
@@ -20,35 +13,24 @@ columns = [
     "passenger_count",
     "trip_distance",
     "tip_amount",
-    "total_amount",
-]
-df = pd.read_parquet(url, columns=columns)
-# Convert datetime to string (IMPORTANT)
+    "total_amount"
+]]
+
+# 2. Convert datetime to string
 df["lpep_pickup_datetime"] = df["lpep_pickup_datetime"].astype(str)
 df["lpep_dropoff_datetime"] = df["lpep_dropoff_datetime"].astype(str)
 
-def ride_serializer(ride):
-    ride_dict = dataclasses.asdict(ride)
-    json_str = json.dumps(ride_dict)
-    return json_str.encode('utf-8')
-
-server = 'localhost:9092'
-
+# 3. Connect to Kafka
 producer = KafkaProducer(
-    bootstrap_servers=[server],
-    value_serializer=ride_serializer
+    bootstrap_servers="localhost:9092",
+    value_serializer=lambda v: json.dumps(v).encode("utf-8")
 )
-t0 = time.time()
 
-topic_name = 'rides'
-
-for _, row in df.iterrows():
-    ride = ride_from_row(row)
-    producer.send(topic_name, value=ride)
-    print(f"Sent: {ride}")
-    time.sleep(0.01)
+# 4. Send all rows
+t0 = time()
+for record in df.to_dict(orient="records"):
+    producer.send("green-trips", record)
 
 producer.flush()
-
-t1 = time.time()
-print(f'took {(t1 - t0):.2f} seconds')
+t1 = time()
+print(f"Sent {len(df)} records in {t1 - t0:.2f} seconds")
